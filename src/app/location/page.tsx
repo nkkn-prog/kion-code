@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Title, Paper, Grid, Card, Text, Button, Group, ActionIcon, Badge, Stack, TextInput, Modal, Radio } from '@mantine/core';
+import { Container, Title, Grid, Card, Text, Button, Group, ActionIcon, Badge, Stack, TextInput, Modal, Radio } from '@mantine/core';
 import { IconPlus, IconEdit, IconTrash, IconMapPin, IconHome } from '@tabler/icons-react';
 import { useState } from 'react';
 

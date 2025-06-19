@@ -1,20 +1,36 @@
 'use client';
 
-import { AppShell, Group, Button, Text, Menu, Avatar, UnstyledButton } from '@mantine/core';
+import { AppShell, Group, Button, Text, Menu, Avatar, UnstyledButton, Burger } from '@mantine/core';
 import { IconLogout, IconUser, IconSettings, IconChevronDown } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export function Header() {
+interface HeaderProps {
+  opened?: boolean;
+  toggle?: () => void;
+  showNavigation?: boolean;
+}
+
+export function Header({ opened, toggle, showNavigation }: HeaderProps) {
   const pathname = usePathname();
   const isAuthenticated = pathname !== '/' && pathname !== '/login' && pathname !== '/signup';
 
   return (
     <AppShell.Header>
       <Group justify="space-between" h={60} px="md">
-        <Text size="xl" fw={700} component={Link} href={isAuthenticated ? '/dashboard' : '/'} style={{ textDecoration: 'none', color: 'var(--color-primary)' }}>
-          きおんコーデ
-        </Text>
+        <Group gap="sm">
+          {showNavigation && (
+            <Burger
+              opened={opened || false}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+          )}
+          <Text size="xl" fw={700} component={Link} href={isAuthenticated ? '/dashboard' : '/'} style={{ textDecoration: 'none', color: 'var(--color-primary)' }}>
+            きおんコーデ
+          </Text>
+        </Group>
         
         {isAuthenticated ? (
           <Menu shadow="md" width={200} position="bottom-end">

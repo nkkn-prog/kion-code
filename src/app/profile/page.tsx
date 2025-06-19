@@ -18,7 +18,7 @@ const ProfilePage = () => {
               <FileInput
                 label="プロフィール画像"
                 placeholder="画像を選択"
-                icon={<IconUpload size={14} />}
+                leftSection={<IconUpload size={14} />}
                 accept="image/*"
               />
               <Text size="xs" c="dimmed">

@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Title, Paper, Grid, Card, Image, Text, Button, Group, ActionIcon, Badge, Stack, FileInput, TextInput, Select, Modal } from '@mantine/core';
+import { Container, Title, Grid, Card, Image, Text, Button, Group, ActionIcon, Badge, Stack, FileInput, TextInput, Select, Modal } from '@mantine/core';
 import { IconPlus, IconEdit, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useState } from 'react';
 
@@ -64,7 +64,7 @@ const ClothesPage = () => {
           <FileInput
             label="服の画像"
             placeholder="画像を選択"
-            icon={<IconUpload size={14} />}
+            leftSection={<IconUpload size={14} />}
             accept="image/*"
             required
           />

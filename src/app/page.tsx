@@ -1,7 +1,7 @@
 'use client';
 
-import { Container, Title, Text, Button, Group, Stack, Grid, Card, Box, Badge, ThemeIcon, BackgroundImage, Overlay } from '@mantine/core';
-import { IconCloudRain, IconMapPin, IconShirt, IconSparkles, IconArrowRight, IconSun, IconWind, IconTemperature } from '@tabler/icons-react';
+import { Container, Title, Text, Button, Group, Stack, Grid, Card, Box, Badge, ThemeIcon } from '@mantine/core';
+import { IconCloudRain, IconShirt, IconSparkles, IconArrowRight, IconSun } from '@tabler/icons-react';
 import Link from 'next/link';
 
 const HomePage = () => {

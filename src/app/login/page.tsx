@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Paper, Title, TextInput, PasswordInput, Button, Text, Anchor, Group, Box } from '@mantine/core';
+import { Container, Paper, Title, TextInput, PasswordInput, Button, Text, Anchor, Group } from '@mantine/core';
 import Link from 'next/link';
 
 const LoginPage = () => {

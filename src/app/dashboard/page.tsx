@@ -1,7 +1,7 @@
 'use client';
 
 import { Container, Title, Grid, Card, Text, Group, Stack, Badge, Paper, Box } from '@mantine/core';
-import { IconCloudRain, IconSun, IconWind, IconTemperature } from '@tabler/icons-react';
+import { IconCloudRain, IconSun, IconWind } from '@tabler/icons-react';
 
 const DashboardPage = () => {
   return (

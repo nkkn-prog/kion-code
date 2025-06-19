@@ -12,7 +12,11 @@ const navItems = [
   { label: 'プロフィール', icon: IconUser, href: '/profile' },
 ];
 
-export function Navigation() {
+interface NavigationProps {
+  onNavigate?: () => void;
+}
+
+export function Navigation({ onNavigate }: NavigationProps) {
   const pathname = usePathname();
 
   return (
@@ -27,6 +31,7 @@ export function Navigation() {
           active={pathname === item.href}
           variant="subtle"
           style={{ borderRadius: 'var(--radius-md)', marginBottom: '0.5rem' }}
+          onClick={onNavigate}
         />
       ))}
     </AppShell.Navbar>
