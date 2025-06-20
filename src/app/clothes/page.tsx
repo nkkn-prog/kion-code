@@ -79,6 +79,7 @@ const ClothesPage = () => {
             label="カテゴリー"
             placeholder="選択してください"
             data={[
+              { value: 'innerwear', label: 'インナー' },
               { value: 'tops', label: 'トップス' },
               { value: 'bottoms', label: 'ボトムス' },
               { value: 'outerwear', label: 'アウター' },
