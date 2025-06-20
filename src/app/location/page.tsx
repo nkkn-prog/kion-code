@@ -1,11 +1,38 @@
 'use client';
 
-import { Container, Title, Grid, Card, Text, Button, Group, ActionIcon, Badge, Stack, TextInput, Modal, Radio } from '@mantine/core';
+import { Container, Title, Grid, Card, Text, Button, Group, ActionIcon, Badge, Stack, TextInput, Modal } from '@mantine/core';
 import { IconPlus, IconEdit, IconTrash, IconMapPin, IconHome } from '@tabler/icons-react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const locationSchema = z.object({
+  currentLocation: z.string().min(1, '現在地を入力してください'),
+  currentLocationDetail: z.string().optional(),
+  destinationLocation: z.string().min(1, '目的地を入力してください'),
+  destinationLocationDetail: z.string().optional(),
+});
+
+type LocationFormData = z.infer<typeof locationSchema>;
 
 const LocationPage = () => {
   const [opened, setOpened] = useState(false);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<LocationFormData>({
+    resolver: zodResolver(locationSchema),
+  });
+  
+  const onSubmit = (data: LocationFormData) => {
+    console.log('Location data:', data);
+    reset();
+    setOpened(false);
+  };
 
   return (
     <Container size="lg" py="xl">
@@ -86,35 +113,63 @@ const LocationPage = () => {
         </Grid.Col>
       </Grid>
 
-      <Modal opened={opened} onClose={() => setOpened(false)} title="地点を登録" size="md">
-        <Stack>
-          <Radio.Group label="地点タイプ" required>
-            <Stack mt="xs">
-              <Radio value="current" label="現在地" />
-              <Radio value="destination" label="目的地" />
+      <Modal opened={opened} onClose={() => setOpened(false)} title="地点セットを登録" size="lg">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack>
+            <Text size="sm" c="dimmed" mb="md">
+              現在地と目的地をセットで登録します
+            </Text>
+            
+            <Stack gap="xl">
+              <Stack gap="xs">
+                <Group>
+                  <IconHome size={20} color="var(--color-primary)" />
+                  <Text fw={500}>現在地</Text>
+                </Group>
+                <TextInput
+                  placeholder="例: 東京"
+                  {...register('currentLocation')}
+                  error={errors.currentLocation?.message}
+                />
+                <TextInput
+                  placeholder="詳細（任意）例: 東京都千代田区"
+                  {...register('currentLocationDetail')}
+                />
+              </Stack>
+              
+              <Stack gap="xs">
+                <Group>
+                  <IconMapPin size={20} color="var(--color-secondary)" />
+                  <Text fw={500}>目的地</Text>
+                </Group>
+                <TextInput
+                  placeholder="例: 大阪"
+                  {...register('destinationLocation')}
+                  error={errors.destinationLocation?.message}
+                />
+                <TextInput
+                  placeholder="詳細（任意）例: 大阪府大阪市"
+                  {...register('destinationLocationDetail')}
+                />
+              </Stack>
             </Stack>
-          </Radio.Group>
-          
-          <TextInput
-            label="地名"
-            placeholder="例: 東京、大阪"
-            required
-          />
-          
-          <TextInput
-            label="詳細（任意）"
-            placeholder="例: 東京都千代田区"
-          />
-          
-          <Group justify="flex-end" mt="md">
-            <Button variant="default" onClick={() => setOpened(false)}>
-              キャンセル
-            </Button>
-            <Button color="sunsetOrange">
-              登録
-            </Button>
-          </Group>
-        </Stack>
+            
+            <Group justify="flex-end" mt="xl">
+              <Button 
+                variant="default" 
+                onClick={() => {
+                  reset();
+                  setOpened(false);
+                }}
+              >
+                キャンセル
+              </Button>
+              <Button color="sunsetOrange" type="submit">
+                登録
+              </Button>
+            </Group>
+          </Stack>
+        </form>
       </Modal>
     </Container>
   );
