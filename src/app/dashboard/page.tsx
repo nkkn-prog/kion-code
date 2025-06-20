@@ -30,7 +30,7 @@ const DashboardPage = () => {
                 <Text size="sm">風速: 3m/s</Text>
               </Group>
               <Group gap="xs">
-                <IconCloudRain size={20} />
+                <IconCloudRain size={20} color="#4A90E2" />
                 <Text size="sm">降水確率: 10%</Text>
               </Group>
             </Group>
@@ -45,7 +45,7 @@ const DashboardPage = () => {
             </Group>
             
             <Group mt="md" mb="xs">
-              <IconCloudRain size={48} color="var(--color-primary)" />
+              <IconCloudRain size={48} color="#4A90E2" />
               <Stack gap={0}>
                 <Text size="xl" fw={700}>22°C</Text>
                 <Text size="sm" c="dimmed">小雨</Text>
@@ -58,7 +58,7 @@ const DashboardPage = () => {
                 <Text size="sm">風速: 5m/s</Text>
               </Group>
               <Group gap="xs">
-                <IconCloudRain size={20} />
+                <IconCloudRain size={20} color="#4A90E2" />
                 <Text size="sm">降水確率: 60%</Text>
               </Group>
             </Group>
