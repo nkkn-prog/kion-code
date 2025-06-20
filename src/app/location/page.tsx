@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { LocationSearchInput } from '@/components/LocationSearchInput';
+import type { LocationSuggestion } from '@/utils/geocoding';
 
 const locationSchema = z.object({
   currentLocation: z.string().min(1, '現在地を入力してください'),
@@ -18,20 +20,71 @@ type LocationFormData = z.infer<typeof locationSchema>;
 
 const LocationPage = () => {
   const [opened, setOpened] = useState(false);
+  const [currentLocationValue, setCurrentLocationValue] = useState('');
+  const [destinationLocationValue, setDestinationLocationValue] = useState('');
+  const [selectedCurrentLocation, setSelectedCurrentLocation] = useState<LocationSuggestion | null>(null);
+  const [selectedDestinationLocation, setSelectedDestinationLocation] = useState<LocationSuggestion | null>(null);
   
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<LocationFormData>({
     resolver: zodResolver(locationSchema),
   });
   
+  const currentLocationDetail = watch('currentLocationDetail');
+  const destinationLocationDetail = watch('destinationLocationDetail');
+  
   const onSubmit = (data: LocationFormData) => {
-    console.log('Location data:', data);
+    console.log('Location data:', {
+      ...data,
+      currentLocationInfo: selectedCurrentLocation,
+      destinationLocationInfo: selectedDestinationLocation,
+    });
+    
+    // Reset form and state
     reset();
+    setCurrentLocationValue('');
+    setDestinationLocationValue('');
+    setSelectedCurrentLocation(null);
+    setSelectedDestinationLocation(null);
     setOpened(false);
+  };
+
+  const handleCurrentLocationChange = (value: string) => {
+    setCurrentLocationValue(value);
+    setValue('currentLocation', value);
+    if (!value) {
+      setSelectedCurrentLocation(null);
+    }
+  };
+
+  const handleDestinationLocationChange = (value: string) => {
+    setDestinationLocationValue(value);
+    setValue('destinationLocation', value);
+    if (!value) {
+      setSelectedDestinationLocation(null);
+    }
+  };
+
+  const handleCurrentLocationSelect = (location: LocationSuggestion) => {
+    setSelectedCurrentLocation(location);
+    // Auto-fill detail field with full address if empty
+    if (!currentLocationDetail) {
+      setValue('currentLocationDetail', location.description);
+    }
+  };
+
+  const handleDestinationLocationSelect = (location: LocationSuggestion) => {
+    setSelectedDestinationLocation(location);
+    // Auto-fill detail field with full address if empty
+    if (!destinationLocationDetail) {
+      setValue('destinationLocationDetail', location.description);
+    }
   };
 
   return (
@@ -126,9 +179,11 @@ const LocationPage = () => {
                   <IconHome size={20} color="var(--color-primary)" />
                   <Text fw={500}>現在地</Text>
                 </Group>
-                <TextInput
+                <LocationSearchInput
                   placeholder="例: 東京"
-                  {...register('currentLocation')}
+                  value={currentLocationValue}
+                  onChange={handleCurrentLocationChange}
+                  onLocationSelect={handleCurrentLocationSelect}
                   error={errors.currentLocation?.message}
                 />
                 <TextInput
@@ -142,9 +197,11 @@ const LocationPage = () => {
                   <IconMapPin size={20} color="var(--color-secondary)" />
                   <Text fw={500}>目的地</Text>
                 </Group>
-                <TextInput
+                <LocationSearchInput
                   placeholder="例: 大阪"
-                  {...register('destinationLocation')}
+                  value={destinationLocationValue}
+                  onChange={handleDestinationLocationChange}
+                  onLocationSelect={handleDestinationLocationSelect}
                   error={errors.destinationLocation?.message}
                 />
                 <TextInput
@@ -159,6 +216,10 @@ const LocationPage = () => {
                 variant="default" 
                 onClick={() => {
                   reset();
+                  setCurrentLocationValue('');
+                  setDestinationLocationValue('');
+                  setSelectedCurrentLocation(null);
+                  setSelectedDestinationLocation(null);
                   setOpened(false);
                 }}
               >
